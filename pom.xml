@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+    <parent>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>2.0.5.RELEASE</version>
+    </parent>
+
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>coop.tecso</groupId>
+    <artifactId>test-spring-boot-level-1</artifactId>
+    <version>0.0.1</version>
+    <packaging>jar</packaging>
+    <name>test-spring-boot-level-1</name>
+
+    <url>https://gitlab.tecso.coop/tecso/test-spring-boot-level-1</url>
+    <description>Examen Spring Boot</description>
+    <inceptionYear>2018</inceptionYear>
+
+    <scm>
+        <url>https://gitlab.tecso.coop/tecso/test-spring-boot-level-1</url>
+        <connection>scm:git:https://gitlab.tecso.coop/tecso/test-spring-boot-level-1.git</connection>
+        <developerConnection>scm:git:https://gitlab.tecso.coop/tecso/test-spring-boot-level-1.git</developerConnection>
+        <tag>HEAD</tag>
+    </scm>
+
+
+    <properties>
+        <java.version>1.8</java.version>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <start-class>coop.tecso.examen.MainApplication</start-class>
+        <joda-time-version>2.10</joda-time-version>
+        <jadira-usertype-version>6.0.1.GA</jadira-usertype-version>
+        <commons-lang3.version>3.4</commons-lang3.version>
+        <commons-codec.version>1.10</commons-codec.version>
+        <guava.version>19.0</guava.version>
+    </properties>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-actuator</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-jpa</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-hateoas</artifactId>
+        </dependency>
+		<dependency>
+			<groupId>com.h2database</groupId>
+			<artifactId>h2</artifactId>
+		</dependency>
+        <dependency>
+            <groupId>joda-time</groupId>
+            <artifactId>joda-time</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.jadira.usertype</groupId>
+            <artifactId>usertype.core</artifactId>
+            <version>${jadira-usertype-version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-lang3</artifactId>
+            </dependency>
+        <dependency>
+            <groupId>com.google.guava</groupId>
+            <artifactId>guava</artifactId>
+            <version>${guava.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>commons-codec</groupId>
+            <artifactId>commons-codec</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <pluginManagement>
+            <plugins>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-jar-plugin</artifactId>
+                    <configuration>
+                        <archive>
+                            <manifestEntries>
+                                <Premain-Class>coop.tecso.examen.NopPreMain</Premain-Class>
+                            </manifestEntries>
+                        </archive>
+                    </configuration>
+                </plugin>
+            </plugins>
+        </pluginManagement>
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
+			<plugin>
+			    <groupId>org.springframework.boot</groupId>
+			    <artifactId>spring-boot-maven-plugin</artifactId>
+			    <executions>
+			        <execution>
+			            <id>build-info</id>
+			            <goals>
+			                <goal>build-info</goal>
+			            </goals>
+			        </execution>
+			    </executions>
+			</plugin>
+        </plugins>
+    </build>
+</project>
