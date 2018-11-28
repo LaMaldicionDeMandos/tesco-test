@@ -42,7 +42,7 @@ Workflow:
 	
 	- Desde el Eclipse, importar el proyecto (importar como proyecto Maven existente).
 	
-	- Resolver los ejercios indicados.  Ver enuciados en "EJERCICIOS.md".
+	- Resolver los ejercios indicados.  Ver enuciados en ** "EJERCICIOS.md" **.
 	
 	- Agregar un archivo llamado "RESPUESTAS.md" que contenga todas las "curl requests" que permitan
 	probar las funcionalidades agregadas. 

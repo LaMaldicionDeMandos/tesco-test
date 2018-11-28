@@ -11,7 +11,7 @@ Desarollar todos los artefactos necesarios (controller, servicio, repositorio, m
 	y dni.
 	
 	
-- Si el titular es un apersona jurídica, los atributos requeridos
+- Si el titular es una persona jurídica, los atributos requeridos
 	serán los siguientes: razon social (maximo 100 caracteres) y año de fundación.
 	
 	
@@ -39,3 +39,5 @@ Las funcionalidades requeridas (creacion, lectura, modificacion, borrado y lista
 ---
 
 
+## Ejercicio 2:
+Implementar un CRUD + listado de
