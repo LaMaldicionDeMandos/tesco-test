@@ -14,10 +14,11 @@ public enum Currency {
         public BigDecimal limit() {
             return BigDecimal.valueOf(300);
         }
-    }, EURO {
+    },
+    EURO {
         @Override
         public BigDecimal limit() {
-            return BigDecimal.valueOf(200);
+            return BigDecimal.valueOf(150);
         }
     };
 

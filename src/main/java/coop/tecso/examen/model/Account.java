@@ -2,13 +2,25 @@ package coop.tecso.examen.model;
 
 import com.google.common.collect.Lists;
 
+import javax.persistence.Basic;
+import javax.persistence.Entity;
+import javax.persistence.Enumerated;
+import javax.persistence.OneToMany;
 import java.math.BigDecimal;
 import java.util.List;
 
-public class Account {
+@Entity
+public class Account extends AbstractPersistentObject {
+    @Basic
     private final Long accountNumber;
+
+    @OneToMany
     private final List<Order> orders;
+
+    @Enumerated
     private final Currency currency;
+
+    @Basic
     private BigDecimal balance;
 
     public Account(Long accountNumber, List<Order> orders, Currency currency) {
@@ -34,12 +46,22 @@ public class Account {
     }
 
     private Boolean isValidOrder(Order order) {
-        return addOrderAmount(balance, order).negate().compareTo(currency.limit()) < 0;
+        return addOrderAmount(balance, order).negate().compareTo(currency.limit()) <= 0;
     }
 
     public BigDecimal getBalance() {
         return balance;
     }
 
+    public Long getAccountNumber() {
+        return accountNumber;
+    }
 
+    public List<Order> getOrders() {
+        return Lists.newCopyOnWriteArrayList();
+    }
+
+    public Currency getCurrency() {
+        return currency;
+    }
 }
