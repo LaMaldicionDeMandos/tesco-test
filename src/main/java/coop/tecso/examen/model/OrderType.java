@@ -1,4 +1,5 @@
 package coop.tecso.examen.model;
 
-public interface OrderType {
+public enum OrderType {
+    CREDIT, DEBIT
 }
