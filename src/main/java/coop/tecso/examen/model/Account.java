@@ -2,19 +2,17 @@ package coop.tecso.examen.model;
 
 import com.google.common.collect.Lists;
 
-import javax.persistence.Basic;
-import javax.persistence.Entity;
-import javax.persistence.Enumerated;
-import javax.persistence.OneToMany;
+import javax.persistence.*;
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.Objects;
 
 @Entity
 public class Account extends AbstractPersistentObject {
     @Basic
     private final Long accountNumber;
 
-    @OneToMany
+    @OneToMany(fetch = FetchType.EAGER)
     private final List<Order> orders;
 
     @Enumerated
@@ -58,10 +56,25 @@ public class Account extends AbstractPersistentObject {
     }
 
     public List<Order> getOrders() {
-        return Lists.newCopyOnWriteArrayList();
+        return Lists.newArrayList(orders);
     }
 
     public Currency getCurrency() {
         return currency;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        if (!super.equals(o)) return false;
+        Account account = (Account) o;
+        return Objects.equals(accountNumber, account.accountNumber) &&
+                currency == account.currency;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(super.hashCode(), accountNumber, currency);
     }
 }

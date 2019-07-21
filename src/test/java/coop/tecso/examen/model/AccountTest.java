@@ -1,7 +1,6 @@
 package coop.tecso.examen.model;
 
 import org.assertj.core.util.Lists;
-import org.junit.Assert;
 import org.junit.Test;
 
 import java.math.BigDecimal;
