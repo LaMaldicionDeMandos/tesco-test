@@ -29,6 +29,10 @@ public class Account extends AbstractPersistentObject {
         orders.stream().forEach(this::addOrder);
     }
 
+    public Account(Long accountNumber, Currency currency) {
+        this(accountNumber, Lists.newArrayList(), currency);
+    }
+
     private static BigDecimal addOrderAmount(BigDecimal partialValue, Order order) {
         return partialValue.add(order.signedAmount());
     }
@@ -76,5 +80,9 @@ public class Account extends AbstractPersistentObject {
     @Override
     public int hashCode() {
         return Objects.hash(super.hashCode(), accountNumber, currency);
+    }
+
+    public boolean hasOrders() {
+        return !orders.isEmpty();
     }
 }
