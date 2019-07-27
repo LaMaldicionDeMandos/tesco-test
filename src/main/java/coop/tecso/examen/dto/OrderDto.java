@@ -1,5 +1,6 @@
 package coop.tecso.examen.dto;
 
+import coop.tecso.examen.model.Order;
 import coop.tecso.examen.model.OrderType;
 
 import java.math.BigDecimal;
@@ -18,6 +19,14 @@ public class OrderDto {
         this.type = type;
         this.description = description;
         this.amount = amount;
+    }
+
+    public OrderDto(Order order) {
+        this.id = order.getId();
+        this.date = order.getDate();
+        this.type = order.getType();
+        this.description = order.getDescription();
+        this.amount = order.getAmount();
     }
 
     public Long getId() {

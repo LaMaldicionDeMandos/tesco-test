@@ -3,8 +3,11 @@ package coop.tecso.examen.dto;
 import com.google.common.collect.Lists;
 import coop.tecso.examen.model.Account;
 import coop.tecso.examen.model.Currency;
+import coop.tecso.examen.model.Order;
+
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class AccountDto {
     private final Long id;
@@ -24,7 +27,7 @@ public class AccountDto {
     public AccountDto(final Account account) {
         this.id = account.getId();
         this.accountNumber = account.getAccountNumber();
-        this.orders = Lists.newArrayList();
+        this.orders = account.getOrders().stream().map(order -> new OrderDto(order)).collect(Collectors.toList());
         this.currency = account.getCurrency();
         this.balance = account.getBalance();
     }
