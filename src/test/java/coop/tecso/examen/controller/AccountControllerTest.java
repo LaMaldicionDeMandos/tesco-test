@@ -2,9 +2,11 @@ package coop.tecso.examen.controller;
 
 import coop.tecso.examen.controller.entitybuilder.AccountBuilder;
 import coop.tecso.examen.dto.AccountDto;
+import coop.tecso.examen.exception.AccountNotFoundException;
 import coop.tecso.examen.service.AccountService;
 import coop.tecso.examen.model.Account;
 import org.hamcrest.Matcher;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +21,7 @@ import static coop.tecso.examen.model.Currency.PESO;
 import static org.hamcrest.Matchers.*;
 import static org.mockito.Mockito.when;
 import static org.springframework.http.MediaType.APPLICATION_JSON;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -44,6 +47,14 @@ public class AccountControllerTest {
 
 	private AccountDto accountDto;
 	private ResultActions response;
+	private boolean DELETED = true;
+	private boolean NOT_DELETED = false;
+	private String root;
+
+	@Before
+	public void before() {
+		root = controller.getClass().getAnnotation(RequestMapping.class).value()[0];
+	}
 
 	@Test
 	public void newAccount() throws Exception {
@@ -83,6 +94,45 @@ public class AccountControllerTest {
 		thenResponseShouldReturnBadRequest();
 	}
 
+	@Test
+	public void deleteAccount() throws Exception {
+		givenAnAccountServiceWithAnAccountToDelete();
+
+		whenDeleteAccount();
+
+		thenResponseShouldDeleteAccount();
+	}
+
+	@Test
+	public void deleteAccountWithOrders() throws Exception {
+		givenAnAccountServiceWithAnAccountToDeleteUnallowed();
+
+		whenDeleteAccount();
+
+		thenResponseShouldNotDeleteAccount();
+	}
+
+	@Test
+	public void deleteAccountThatNotExists() throws Exception {
+		givenAnAccountServiceWithoutAccount();
+
+		whenDeleteAccount();
+
+		thenResponseShouldNotFoundAccount();
+	}
+
+	private void givenAnAccountServiceWithoutAccount() {
+		when(accountService.deleteAccount(ACCOUNT_ID)).thenThrow(AccountNotFoundException.class);
+	}
+
+	private void givenAnAccountServiceWithAnAccountToDeleteUnallowed() {
+		when(accountService.deleteAccount(ACCOUNT_ID)).thenReturn(NOT_DELETED);
+	}
+
+	private void givenAnAccountServiceWithAnAccountToDelete() {
+		when(accountService.deleteAccount(ACCOUNT_ID)).thenReturn(DELETED);
+	}
+
 	private void givenABadAccountDto() {
 		accountDto = accountBuilder.withAccountNumber(1l).build();
 	}
@@ -98,17 +148,18 @@ public class AccountControllerTest {
 	}
 
 	private void whenPostNewAccountWithBadCurrency() throws Exception {
-		String root = controller.getClass().getAnnotation(RequestMapping.class).value()[0];
 		response = mvc.perform(post(root).content("{\"accountNumber\":1,\"currency\":\"REAL\"}").contentType(APPLICATION_JSON));
 	}
 
 	private void whenPostNewAccount(AccountDto accountDto) throws Exception {
-		String root = controller.getClass().getAnnotation(RequestMapping.class).value()[0];
 		response = mvc.perform(post(root).content(accountBuilder.buildAsString(accountDto)).contentType(APPLICATION_JSON));
 	}
 
+	private void whenDeleteAccount() throws Exception {
+		response = mvc.perform(delete(root + "/" + ACCOUNT_ID).contentType(APPLICATION_JSON));
+	}
+
 	private void whenPostNewAccountWithoutBody() throws Exception {
-		String root = controller.getClass().getAnnotation(RequestMapping.class).value()[0];
 		response = mvc.perform(post(root).contentType(APPLICATION_JSON));
 	}
 
@@ -125,6 +176,18 @@ public class AccountControllerTest {
 
 	private void thenResponseShouldReturnBadRequest() throws Exception {
 		response.andExpect(status().isBadRequest()).andReturn();
+	}
+
+	private void thenResponseShouldDeleteAccount() throws Exception {
+		response.andExpect(status().isOk()).andReturn();
+	}
+
+	private void thenResponseShouldNotDeleteAccount() throws Exception {
+		response.andExpect(status().isNotModified()).andReturn();
+	}
+
+	private void thenResponseShouldNotFoundAccount() throws Exception {
+		response.andExpect(status().isNotFound()).andReturn();
 	}
 
 	public static Matcher<Integer> is(Long value) {

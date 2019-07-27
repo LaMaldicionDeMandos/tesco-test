@@ -1,5 +1,6 @@
 package coop.tecso.examen.service.impl;
 
+import coop.tecso.examen.exception.AccountNotFoundException;
 import coop.tecso.examen.exception.InvalidOperationException;
 import coop.tecso.examen.model.Account;
 import coop.tecso.examen.model.Currency;
@@ -10,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class DefaultAccountService implements AccountService {
@@ -53,7 +55,11 @@ public class DefaultAccountService implements AccountService {
     }
 
     private Account getAccount(final Long accountId) {
-        return repository.getOne(accountId);
+        try {
+            return repository.getOne(accountId);
+        } catch (NullPointerException e) {
+            throw new AccountNotFoundException(accountId);
+        }
     }
 
     private void deleteAccount(final Account account) {
