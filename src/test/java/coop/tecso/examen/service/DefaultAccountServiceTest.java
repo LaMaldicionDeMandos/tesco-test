@@ -5,6 +5,7 @@ import coop.tecso.examen.model.Account;
 import coop.tecso.examen.model.Order;
 import coop.tecso.examen.model.OrderType;
 import coop.tecso.examen.repository.AccountRepository;
+import coop.tecso.examen.service.impl.DefaultAccountService;
 import org.assertj.core.util.Lists;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -22,7 +23,7 @@ import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.*;
 
 @RunWith(MockitoJUnitRunner.class)
-public class AccountServiceTest {
+public class DefaultAccountServiceTest {
 
     private static final Long ACCOUNT_NUMBER = 1l;
     private static final Long ACCOUNT_ID = 1l;
@@ -32,7 +33,7 @@ public class AccountServiceTest {
     @Mock
     private AccountRepository repo;
     private Account account;
-    private AccountService service;
+    private DefaultAccountService service;
     private boolean result;
 
 
@@ -79,7 +80,7 @@ public class AccountServiceTest {
     }
 
     private void givenAnAccountService() {
-        service = new AccountService(repo);
+        service = new DefaultAccountService(repo);
     }
 
     private void givenANewAccountWithOrders() {
