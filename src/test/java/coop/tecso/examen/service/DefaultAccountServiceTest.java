@@ -5,12 +5,16 @@ import coop.tecso.examen.model.Account;
 import coop.tecso.examen.model.Order;
 import coop.tecso.examen.model.OrderType;
 import coop.tecso.examen.repository.AccountRepository;
+import coop.tecso.examen.repository.OrderRepository;
 import coop.tecso.examen.service.impl.DefaultAccountService;
 import org.assertj.core.util.Lists;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
+import org.mockito.invocation.InvocationOnMock;
 import org.mockito.junit.MockitoJUnitRunner;
+import org.mockito.stubbing.Answer;
 
 import java.math.BigDecimal;
 import java.util.Date;
@@ -32,10 +36,22 @@ public class DefaultAccountServiceTest {
 
     @Mock
     private AccountRepository repo;
+    @Mock
+    private OrderRepository orderRepo;
     private Account account;
     private DefaultAccountService service;
     private boolean result;
 
+    @Before
+    public void before() {
+        when(orderRepo.save(any(Order.class))).thenAnswer(
+                (Answer<Order>) invocationOnMock -> {
+                    Order order = invocationOnMock.getArgument(0);
+                    order.setId(1l);
+                    return order;
+                }
+        );
+    }
 
 
     @Test
@@ -80,7 +96,7 @@ public class DefaultAccountServiceTest {
     }
 
     private void givenAnAccountService() {
-        service = new DefaultAccountService(repo);
+        service = new DefaultAccountService(repo, orderRepo);
     }
 
     private void givenANewAccountWithOrders() {

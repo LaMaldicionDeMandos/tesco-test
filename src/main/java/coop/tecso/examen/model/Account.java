@@ -33,6 +33,10 @@ public class Account extends AbstractPersistentObject {
         this(accountNumber, Lists.newArrayList(), currency);
     }
 
+    Account() {
+        this(0l, Currency.PESO);
+    }
+
     private static BigDecimal addOrderAmount(BigDecimal partialValue, Order order) {
         return partialValue.add(order.signedAmount());
     }
@@ -47,7 +51,7 @@ public class Account extends AbstractPersistentObject {
         return isValid;
     }
 
-    private Boolean isValidOrder(Order order) {
+    public Boolean isValidOrder(Order order) {
         return addOrderAmount(balance, order).negate().compareTo(currency.limit()) <= 0;
     }
 

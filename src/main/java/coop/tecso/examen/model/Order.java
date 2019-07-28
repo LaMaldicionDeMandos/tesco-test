@@ -36,6 +36,10 @@ public class Order extends AbstractPersistentObject {
         this.amount = amount;
     }
 
+    Order() {
+        this(DateTime.now(), OrderType.CREDIT, "", BigDecimal.ZERO);
+    }
+
     public BigDecimal getAmount() {
         return amount;
     }
