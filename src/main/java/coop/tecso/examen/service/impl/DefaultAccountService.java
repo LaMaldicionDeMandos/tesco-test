@@ -12,6 +12,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
+
+import javax.persistence.EntityNotFoundException;
 
 @Service
 public class DefaultAccountService implements AccountService {
@@ -59,11 +62,8 @@ public class DefaultAccountService implements AccountService {
     }
 
     private Account getAccount(final Long accountId) {
-        try {
-            return repository.getOne(accountId);
-        } catch (NullPointerException e) {
-            throw new AccountNotFoundException(accountId);
-        }
+        Optional<Account> optionalAccount = repository.findById(accountId);
+        return optionalAccount.orElseThrow(() -> new AccountNotFoundException(accountId));
     }
 
     private void deleteAccount(final Account account) {
