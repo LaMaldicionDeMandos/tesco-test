@@ -19,11 +19,11 @@ public class AccountBuilder extends AbstractEntityBuilder<AccountDto> {
 
     @Override
     public AccountDto build() {
-        return new AccountDto(null, accountNumber, null, currency, null);
+        return new AccountDto(null, accountNumber, currency, null);
     }
 
     @Override
     public AccountDto buildValid() {
-        return new AccountDto(null, 1l, null, Currency.PESO, null);
+        return new AccountDto(null, 1l, Currency.PESO, null);
     }
 }

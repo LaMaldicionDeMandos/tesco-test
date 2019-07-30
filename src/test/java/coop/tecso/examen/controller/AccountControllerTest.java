@@ -272,7 +272,6 @@ public class AccountControllerTest {
 		response.andExpect(status().isCreated())
 				.andExpect(jsonPath("id", is(ACCOUNT_ID)))
 				.andExpect(jsonPath("accountNumber", is(ACCOUNT_NUMBER)))
-				.andExpect(jsonPath("orders", emptyIterable()))
 				.andExpect(jsonPath("currency", equalTo(CURRENCY_PESO)))
 				.andExpect(jsonPath("balance", equalTo(ZERO_BALANCE)))
 				.andReturn();
@@ -312,10 +311,6 @@ public class AccountControllerTest {
 		response.andExpect(status().isCreated())
 				.andExpect(jsonPath("id", is(ACCOUNT_ID)))
 				.andExpect(jsonPath("accountNumber", is(ACCOUNT_NUMBER)))
-				.andExpect(jsonPath("orders[0].id", is(1l)))
-				.andExpect(jsonPath("orders[0].type", equalTo("CREDIT")))
-				.andExpect(jsonPath("orders[0].description", equalTo("saraza")))
-				.andExpect(jsonPath("orders[0].amount", equalTo(10)))
 				.andExpect(jsonPath("currency", equalTo(CURRENCY_PESO)))
 				.andExpect(jsonPath("balance", equalTo(10)))
 				.andReturn();

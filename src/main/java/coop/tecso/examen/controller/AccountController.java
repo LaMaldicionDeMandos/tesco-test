@@ -4,7 +4,6 @@ import coop.tecso.examen.dto.AccountDto;
 import coop.tecso.examen.dto.OrderDto;
 import coop.tecso.examen.exception.AccountNotFoundException;
 import coop.tecso.examen.exception.InvalidOperationException;
-import coop.tecso.examen.model.Account;
 import coop.tecso.examen.model.Currency;
 import coop.tecso.examen.model.Order;
 import coop.tecso.examen.model.OrderType;
@@ -17,7 +16,6 @@ import org.springframework.web.bind.annotation.*;
 import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
-import java.util.Objects;
 import java.util.stream.Collectors;
 
 import static java.math.BigDecimal.ZERO;
@@ -25,6 +23,7 @@ import static java.util.Objects.nonNull;
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
 @RestController
+@CrossOrigin(origins = "*")
 @RequestMapping(value = "/account", produces = APPLICATION_JSON_VALUE, consumes = APPLICATION_JSON_VALUE)
 public class AccountController {
 

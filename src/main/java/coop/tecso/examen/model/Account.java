@@ -8,11 +8,12 @@ import java.util.List;
 import java.util.Objects;
 
 @Entity
+@Table(uniqueConstraints={@UniqueConstraint(columnNames={"accountNumber"})})
 public class Account extends AbstractPersistentObject {
     @Basic
     private final Long accountNumber;
 
-    @OneToMany(fetch = FetchType.EAGER)
+    @OneToMany(fetch = FetchType.LAZY)
     private final List<Order> orders;
 
     @Enumerated

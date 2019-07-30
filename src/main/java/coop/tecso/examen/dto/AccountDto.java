@@ -12,14 +12,12 @@ import java.util.stream.Collectors;
 public class AccountDto {
     private final Long id;
     private final Long accountNumber;
-    private final List<OrderDto> orders;
     private final Currency currency;
     private final BigDecimal balance;
 
-    public AccountDto(Long id, Long accountNumber, List<OrderDto> orders, Currency currency, BigDecimal balance) {
+    public AccountDto(Long id, Long accountNumber, Currency currency, BigDecimal balance) {
         this.id = id;
         this.accountNumber = accountNumber;
-        this.orders = orders;
         this.currency = currency;
         this.balance = balance;
     }
@@ -27,7 +25,6 @@ public class AccountDto {
     public AccountDto(final Account account) {
         this.id = account.getId();
         this.accountNumber = account.getAccountNumber();
-        this.orders = account.getOrders().stream().map(order -> new OrderDto(order)).collect(Collectors.toList());
         this.currency = account.getCurrency();
         this.balance = account.getBalance();
     }
@@ -38,10 +35,6 @@ public class AccountDto {
 
     public Long getAccountNumber() {
         return accountNumber;
-    }
-
-    public List<OrderDto> getOrders() {
-        return orders;
     }
 
     public Currency getCurrency() {
