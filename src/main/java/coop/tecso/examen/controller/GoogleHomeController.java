@@ -16,8 +16,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.Arrays;
-import java.util.Map;
+import java.util.*;
 import java.util.concurrent.ExecutionException;
 
 @RestController
@@ -38,10 +37,29 @@ public class GoogleHomeController extends SmartHomeApp {
 
     }
 
+    //Body: {"inputs":[{"context":{"locale_country":"US","locale_language":"en"},"intent":"action.devices.EXECUTE","payload":{"commands":[{"devices":[{"id":"L1"}],"execution":[{"command":"action.devices.commands.OnOff","params":{"on":true}}]}]}}],"requestId":"2283667149695842823"}
     @NotNull
     @Override
     public ExecuteResponse onExecute(@NotNull ExecuteRequest executeRequest, @Nullable Map<?, ?> map) {
-        return null;
+        ExecuteResponse res = new ExecuteResponse();
+        List<ExecuteResponse.Payload.Commands> commandsResponse = new ArrayList<>();
+        List<String> successfulDevices = new ArrayList<>();
+
+        ExecuteRequest.Inputs.Payload.Commands.Execution execution =
+                ((ExecuteRequest.Inputs) executeRequest.inputs[0]).payload.commands[0].execution[0];
+        boolean param = (Boolean) execution.getParams().get("on");
+        lightState = param;
+
+        ExecuteResponse.Payload payload = new ExecuteResponse.Payload();
+
+        payload.setCommands(new ExecuteResponse.Payload.Commands[] {
+                new ExecuteResponse.Payload.Commands(
+                        new String[] {"L1"},
+                        "SUCCESS",
+                        new HashMap<String, Object>() {{ put("on", lightState); }},
+                        null, null)});
+        return new ExecuteResponse(executeRequest.getRequestId(), payload);
+
     }
 
     //Body: {"inputs":[{"intent":"action.devices.QUERY","payload":{"devices":[{"id":"L1"}]}}],"requestId":"18012506326314158884"}
